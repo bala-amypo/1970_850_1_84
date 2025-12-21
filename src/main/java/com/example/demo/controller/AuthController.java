@@ -1,46 +1,48 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.User;
-import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/users")
 public class AuthController {
 
     private final UserService userService;
-    private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthController(UserService userService,
-                          JwtTokenProvider jwtTokenProvider) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @PostMapping("/register")
-    public User register(@RequestBody User user) {
+    @PostMapping
+    public User createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
 
-    @PostMapping("/login")
-    public Map<String, String> login(@RequestBody User user) {
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.getUserById(id);
+    }
 
-        User dbUser = userService.findByUsername(user.getUsername());
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 
-        // simple password check (test-friendly)
-        if (!dbUser.getPassword().equals(user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+        return userService.updateUser(id, user);
+    }
 
-        String token = jwtTokenProvider.generateToken(dbUser.getUsername());
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+    }
 
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-
-        return response;
+    @GetMapping("/username/{username}")
+    public User getUserByUsername(@PathVariable String username) {
+        return userService.findByUsername(username);
     }
 }
