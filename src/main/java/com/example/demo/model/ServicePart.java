@@ -1,14 +1,8 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ServicePart {
 
     @Id
@@ -21,4 +15,38 @@ public class ServicePart {
     @ManyToOne
     @JoinColumn(name = "service_entry_id")
     private ServiceEntry serviceEntry;
+
+    public ServicePart() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPartName() {
+        return partName;
+    }
+
+    public void setPartName(String partName) {
+        this.partName = partName;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public ServiceEntry getServiceEntry() {
+        return serviceEntry;
+    }
+
+    public void setServiceEntry(ServiceEntry serviceEntry) {
+        this.serviceEntry = serviceEntry;
+    }
 }
