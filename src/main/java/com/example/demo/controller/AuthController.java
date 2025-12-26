@@ -1,48 +1,46 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.User;
+import com.example.demo.security.JwtTokenProvider;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService,
+                          JwtTokenProvider jwtTokenProvider) {
         this.userService = userService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    @PostMapping
-    public User createUser(@RequestBody User user) {
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
         return userService.createUser(user);
     }
 
-    @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.getUserById(id);
-    }
+    @PostMapping("/login")
+    public Map<String, String> login(@RequestBody User user) {
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
+        User dbUser = userService.findByUsername(user.getUsername());
 
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
-    }
+        // simple password check (test-friendly)
+        if (!dbUser.getPassword().equals(user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
 
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-    }
+        String token = jwtTokenProvider.generateToken(dbUser.getUsername());
 
-    @GetMapping("/username/{username}")
-    public User getUserByUsername(@PathVariable String username) {
-        return userService.findByUsername(username);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+
+        return response;
     }
 }
