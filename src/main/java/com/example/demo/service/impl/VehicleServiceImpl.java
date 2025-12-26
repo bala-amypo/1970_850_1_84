@@ -1,6 +1,6 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import com.example.demo.model.Vehicle;
 import com.example.demo.repository.VehicleRepository;
 import org.springframework.stereotype.Service;
@@ -24,14 +24,12 @@ public class VehicleServiceImpl implements VehicleService {
         }
         return vehicleRepository.save(vehicle);
     }
-
 @Override
 public Vehicle getVehicleById(Long id) {
-    if (id == null || !vehicleRepository.findById(id).isPresent()) {
-        throw new com.example.demo.exception.EntityNotFoundException("Vehicle not found");
-    }
-    return vehicleRepository.findById(id).get();
+    return vehicleRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
 }
+
 
 
 
