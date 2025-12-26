@@ -18,13 +18,16 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle createVehicle(Vehicle vehicle) {
+        if (vehicleRepository.findByVin(vehicle.getVin()).isPresent()) {
+            throw new IllegalArgumentException("Vehicle with VIN already exists");
+        }
         return vehicleRepository.save(vehicle);
     }
 
     @Override
     public Vehicle getVehicleById(Long id) {
         return vehicleRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
     }
 
     @Override
@@ -32,19 +35,18 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleRepository.findAll();
     }
 
-    @Override
-    public Vehicle updateVehicle(Long id, Vehicle vehicle) {
-        Vehicle existingVehicle = getVehicleById(id);
-        existingVehicle.setRegistrationNumber(vehicle.getRegistrationNumber());
-        existingVehicle.setOwnerName(vehicle.getOwnerName());
-        existingVehicle.setVehicleType(vehicle.getVehicleType());
-        existingVehicle.setModel(vehicle.getModel());
-        return vehicleRepository.save(existingVehicle);
+    public List<Vehicle> getVehiclesByOwner(Long ownerId) {
+        return vehicleRepository.findByOwnerId(ownerId);
     }
 
-    @Override
-    public void deleteVehicle(Long id) {
+    public void deactivateVehicle(Long id) {
         Vehicle vehicle = getVehicleById(id);
-        vehicleRepository.delete(vehicle);
+        vehicle.setActive(false);
+        vehicleRepository.save(vehicle);
+    }
+
+    public Vehicle getVehicleByVin(String vin) {
+        return vehicleRepository.findByVin(vin)
+                .orElseThrow(() -> new EntityNotFoundException("Vehicle not found"));
     }
 }

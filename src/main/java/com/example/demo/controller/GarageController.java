@@ -30,14 +30,4 @@ public class GarageController {
     public List<Garage> getAllGarages() {
         return garageService.getAllGarages();
     }
-
-    @PutMapping("/{id}")
-    public Garage updateGarage(@PathVariable Long id, @RequestBody Garage garage) {
-        return garageService.updateGarage(id, garage);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteGarage(@PathVariable Long id) {
-        garageService.deleteGarage(id);
-    }
 }
