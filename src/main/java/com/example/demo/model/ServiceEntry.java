@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -19,6 +20,8 @@ public class ServiceEntry {
     private Garage garage;
 
     private LocalDate serviceDate;
+    private String serviceType;
+    private Integer odometerReading;
     private Double cost;
     private String description;
 
@@ -54,6 +57,22 @@ public class ServiceEntry {
 
     public void setServiceDate(LocalDate serviceDate) {
         this.serviceDate = serviceDate;
+    }
+
+    public String getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public Integer getOdometerReading() {
+        return odometerReading;
+    }
+
+    public void setOdometerReading(Integer odometerReading) {
+        this.odometerReading = odometerReading;
     }
 
     public Double getCost() {

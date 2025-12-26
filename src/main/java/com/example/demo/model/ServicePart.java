@@ -10,6 +10,7 @@ public class ServicePart {
     private Long id;
 
     private String partName;
+    private Integer quantity;
     private Double price;
 
     @ManyToOne
@@ -32,6 +33,14 @@ public class ServicePart {
 
     public void setPartName(String partName) {
         this.partName = partName;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Double getPrice() {
