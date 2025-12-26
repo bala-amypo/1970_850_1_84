@@ -5,6 +5,8 @@ import com.example.demo.model.ServiceEntry;
 import com.example.demo.repository.VerificationLogRepository;
 import com.example.demo.repository.ServiceEntryRepository;
 import org.springframework.stereotype.Service;
+import com.example.demo.service.VerificationLogService;
+
 
 import java.time.LocalDateTime;
 

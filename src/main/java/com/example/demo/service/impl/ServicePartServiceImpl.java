@@ -5,6 +5,7 @@ import com.example.demo.model.ServiceEntry;
 import com.example.demo.repository.ServicePartRepository;
 import com.example.demo.repository.ServiceEntryRepository;
 import org.springframework.stereotype.Service;
+import com.example.demo.service.ServicePartService;
 
 import java.util.List;
 
