@@ -1,7 +1,7 @@
+
 package com.example.demo.service;
 
 import com.example.demo.model.Vehicle;
-
 import java.util.List;
 
 public interface VehicleService {
@@ -11,4 +11,10 @@ public interface VehicleService {
     Vehicle getVehicleById(Long id);
 
     List<Vehicle> getAllVehicles();
+
+    List<Vehicle> getVehiclesByOwner(Long ownerId);
+
+    void deactivateVehicle(Long id);
+
+    Vehicle getVehicleByVin(String vin);
 }
