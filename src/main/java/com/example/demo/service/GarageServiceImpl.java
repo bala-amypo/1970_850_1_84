@@ -18,32 +18,20 @@ public class GarageServiceImpl implements GarageService {
 
     @Override
     public Garage createGarage(Garage garage) {
+        if (garageRepository.findByGarageName(garage.getGarageName()).isPresent()) {
+            throw new IllegalArgumentException("Garage with this name already exists");
+        }
         return garageRepository.save(garage);
     }
 
     @Override
     public Garage getGarageById(Long id) {
         return garageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Garage not found with id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Garage not found"));
     }
 
     @Override
     public List<Garage> getAllGarages() {
         return garageRepository.findAll();
-    }
-
-    @Override
-    public Garage updateGarage(Long id, Garage garage) {
-        Garage existingGarage = getGarageById(id);
-        existingGarage.setName(garage.getName());
-        existingGarage.setLocation(garage.getLocation());
-        existingGarage.setContactNumber(garage.getContactNumber());
-        return garageRepository.save(existingGarage);
-    }
-
-    @Override
-    public void deleteGarage(Long id) {
-        Garage garage = getGarageById(id);
-        garageRepository.delete(garage);
     }
 }
