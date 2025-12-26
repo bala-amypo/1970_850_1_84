@@ -25,10 +25,12 @@ public class VehicleServiceImpl implements VehicleService {
         return vehicleRepository.save(vehicle);
     }
 
-   @Override
+@Override
 public Vehicle getVehicleById(Long id) {
-    return vehicleRepository.findById(id).orElse(null);
+    return vehicleRepository.findById(id)
+        .orElseThrow(() -> new com.example.demo.exception.EntityNotFoundException("Vehicle not found"));
 }
+
 
 
     @Override
