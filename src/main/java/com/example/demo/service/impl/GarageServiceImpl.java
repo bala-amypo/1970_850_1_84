@@ -4,6 +4,8 @@ import com.example.demo.exception.EntityNotFoundException;
 import com.example.demo.model.Garage;
 import com.example.demo.repository.GarageRepository;
 import org.springframework.stereotype.Service;
+import com.example.demo.service.GarageService;
+
 
 import java.util.List;
 
