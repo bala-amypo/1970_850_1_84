@@ -27,9 +27,12 @@ public class VehicleServiceImpl implements VehicleService {
 
 @Override
 public Vehicle getVehicleById(Long id) {
-    return vehicleRepository.findById(id)
-        .orElseThrow(() -> new com.example.demo.exception.EntityNotFoundException("Vehicle not found"));
+    if (id == null || !vehicleRepository.findById(id).isPresent()) {
+        throw new com.example.demo.exception.EntityNotFoundException("Vehicle not found");
+    }
+    return vehicleRepository.findById(id).get();
 }
+
 
 
 
