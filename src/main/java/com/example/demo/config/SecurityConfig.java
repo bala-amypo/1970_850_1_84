@@ -1,12 +1,59 @@
-// package com.example.demo.config;
+// // package com.example.demo.config;
 
-// import com.example.demo.security.JwtAuthenticationFilter;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.security.config.http.SessionCreationPolicy;
-// import org.springframework.security.web.SecurityFilterChain;
-// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+// // import com.example.demo.security.JwtAuthenticationFilter;
+// // import org.springframework.context.annotation.Bean;
+// // import org.springframework.context.annotation.Configuration;
+// // import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+// // import org.springframework.security.config.http.SessionCreationPolicy;
+// // import org.springframework.security.web.SecurityFilterChain;
+// // import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+// // @Configuration
+// // public class SecurityConfig {
+
+// //     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+// //     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+// //         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+// //     }
+
+// //     @Bean
+// //     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+// //         http
+// //             .csrf(csrf -> csrf.disable())
+// //             .sessionManagement(session ->
+// //                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+// //             .authorizeHttpRequests(auth -> auth
+// //                 .requestMatchers(
+// //                     "/auth/**", 
+// //                     "/health",
+// //                     "/swagger-ui/**",
+// //                     "/v3/api-docs/**",
+// //                     "/swagger-ui.html",
+// //                     "/actuator/**"
+// //                 ).permitAll()
+// //                 .anyRequest().authenticated()
+// //             )
+// //             .addFilterBefore(jwtAuthenticationFilter,
+// //                     UsernamePasswordAuthenticationFilter.class)
+// //             .formLogin(form -> form.disable())
+// //             .httpBasic(basic -> basic.disable());
+
+// //         return http.build();
+// //     }
+// // }
+package com.example.demo.config;
+
+import com.example.demo.security.JwtAuthenticationFilter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 // @Configuration
 // public class SecurityConfig {
@@ -15,6 +62,11 @@
 
 //     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
 //         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+//     }
+
+//     @Bean
+//     public PasswordEncoder passwordEncoder() {
+//         return new BCryptPasswordEncoder();
 //     }
 
 //     @Bean
@@ -42,19 +94,7 @@
 
 //         return http.build();
 //     }
-// }
-package com.example.demo.config;
-
-import com.example.demo.security.JwtAuthenticationFilter;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+// 
 @Configuration
 public class SecurityConfig {
 
@@ -78,9 +118,10 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                    "/auth/**", 
+                    "/auth/**",
                     "/health",
                     "/swagger-ui/**",
+                    "/swagger-ui/index.html",
                     "/v3/api-docs/**",
                     "/swagger-ui.html",
                     "/actuator/**"
